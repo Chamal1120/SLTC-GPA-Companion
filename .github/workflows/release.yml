@@ -91,8 +91,6 @@ jobs:
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
           
           # Dynamically search and copy any APKs found in release build output
-          found_any=false
-          
           if [ -d "app/build/outputs/apk/release" ]; then
             find app/build/outputs/apk/release/ -name "*.apk" | while read -r apk_path; do
               filename=$(basename "$apk_path")
@@ -104,7 +102,6 @@ jobs:
               fi
               cp "$apk_path" "release-artifacts/$new_name"
               echo "Copied release APK to release-artifacts/$new_name"
-              found_any=true
             done
           fi
           
@@ -119,8 +116,13 @@ jobs:
               fi
               cp "$apk_path" "release-artifacts/$new_name"
               echo "Copied debug APK to release-artifacts/$new_name"
-              found_any=true
             done
+          fi
+          
+          # Check if we successfully found and copied any APK artifacts
+          found_any=false
+          if [ -d "release-artifacts" ] && ls release-artifacts/*.apk >/dev/null 2>&1; then
+            found_any=true
           fi
           
           if [ "$found_any" = "false" ]; then
