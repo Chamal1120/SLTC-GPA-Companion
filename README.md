@@ -1,21 +1,28 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# SLTC GPA Companion
 
-# Run and deploy your AI Studio app
+SLTC GPA Companion is a dedicated academic progress and GPA tracking application designed specifically for students at the Sri Lanka Technological Campus (SLTC).
 
-This contains everything you need to run your app locally.
+## Why This App Exists
 
-View your app in AI Studio: https://ai.studio/apps/3d95f34e-00ed-4e4c-a0e7-3b1b91ee8b5a
+This application was created out of a direct need to solve a common student frustration: the university does not provide an official, consolidated application for real-time GPA tracking, academic planning, or compliance mapping. 
 
-## Run Locally
+Information regarding course modules, pre-requisites, grading configurations, and academic rules is scattered across various PDFs, student handbooks, and faculty portals. This makes it incredibly tedious for students to stay informed about their degree requirements, calculate their cumulative GPA, or ensure they remain compliant with graduation criteria.
 
-**Prerequisites:**  [Android Studio](https://developer.android.com/studio)
+SLTC GPA Companion brings all of this scattered information into a single, intuitive interface, empowering students to proactively monitor and manage their academic health.
 
+## Core Features
 
-1. Open Android Studio
-2. Select **Open** and choose the directory containing this project
-3. Allow Android Studio to fix any incompatibilities as it imports the project.
-4. Create a file named `.env` in the project directory and set `GEMINI_API_KEY` in that file to your Gemini API key (see `.env.example` for an example)
-5. Remove this line from the app's `build.gradle.kts` file: `signingConfig = signingConfigs.getByName("debugConfig")`
-6. Run the app on an emulator or physical device
+- **Consolidated Degree Curricula**: Pre-loaded curriculum structures for various departments, helping students easily add standard modules without having to look up codes or credit values.
+- **Academic Safety & Compliance Check**: Automatic calculation and check of university guidelines to flag potential graduation risk or confirm your academic status is safe.
+- **Credit Progress Tracker**: Shows credit progress per academic level and total accumulated credits toward the graduation goal.
+- **Dynamic Grade Management**: Easily add, edit, or remove module grades with instant recalculations.
+- **Offline & Private**: All grade entries and profile details are stored entirely on-device, ensuring student academic data remains completely private.
+- **Clean Material 3 Design**: Features a highly polished, visual bento-grid dashboard with seamless animated transitions and cohesive light/dark theme aesthetics.
+
+## Contributing
+
+We welcome contributions to help expand the predefined course catalogue, update degree rule configurations, or add new capabilities! Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.

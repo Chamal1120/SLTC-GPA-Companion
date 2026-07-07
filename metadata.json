@@ -1,5 +1,5 @@
 {
-  "name": "SLTC GPA Tracker",
+  "name": "SLTC GPA Companion",
   "description": "A minimalist and clean GPA calculating app for SLTC students, featuring onboarding, automated module autofill, real-time GPA calculations, and rule-based academic status evaluation.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
