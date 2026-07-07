@@ -23,6 +23,15 @@ android {
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
 
+  splits {
+    abi {
+      isEnable = true
+      reset()
+      include("armeabi-v7a", "arm64-v8a")
+      isUniversalApk = true
+    }
+  }
+
   signingConfigs {
     create("release") {
       val keystoreEnv = System.getenv("KEYSTORE_PATH")
