@@ -24,7 +24,21 @@ class GreetingScreenshotTest {
   fun greeting_screenshot() {
     composeTestRule.setContent {
       MyApplicationTheme {
-        OnboardingView(onOnboard = { _, _ -> })
+        OnboardingView(
+          faculties = listOf("Computing and IT", "Engineering", "Business"),
+          degreesByFaculty = mapOf(
+            "Computing and IT" to listOf("BSc (Hons) in Software Engineering", "BSc (Hons) in Information Technology"),
+            "Engineering" to listOf("BSc (Hons) in Civil Engineering"),
+            "Business" to listOf("BBM (Hons) in Human Resource Management")
+          ),
+          degreeToTypeMap = mapOf(
+            "BSc (Hons) in Software Engineering" to "Honours (Engineering/Tech/IT/Music)",
+            "BSc (Hons) in Information Technology" to "Honours (Engineering/Tech/IT/Music)",
+            "BSc (Hons) in Civil Engineering" to "Honours (Engineering/Tech/IT/Music)",
+            "BBM (Hons) in Human Resource Management" to "Honours (Management/Tourism/Hospitality)"
+          ),
+          onOnboard = { _, _, _, _, _ -> }
+        )
       }
     }
 
