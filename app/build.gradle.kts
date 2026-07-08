@@ -28,7 +28,7 @@ android {
       isEnable = true
       reset()
       include("armeabi-v7a", "arm64-v8a")
-      isUniversalApk = true
+      isUniversalApk = false
     }
   }
 
@@ -63,23 +63,17 @@ android {
       
       val keystoreEnv = System.getenv("KEYSTORE_PATH")
       val hasCustomKeystore = !keystoreEnv.isNullOrBlank() && file(keystoreEnv).exists()
-      val hasLocalDebugKeystore = file("${rootDir}/debug.keystore").exists()
       
       if (hasCustomKeystore) {
         signingConfig = signingConfigs.getByName("release")
-      } else if (hasLocalDebugKeystore) {
-        signingConfig = signingConfigs.getByName("debugConfig")
       } else {
-        signingConfig = null
+        // Fall back to the built-in debug signing configuration generated automatically by AGP.
+        // This ensures the APK is always signed and installable on real devices for testing.
+        signingConfig = signingConfigs.getByName("debug")
       }
     }
     debug {
-      val hasLocalDebugKeystore = file("${rootDir}/debug.keystore").exists()
-      if (hasLocalDebugKeystore) {
-        signingConfig = signingConfigs.getByName("debugConfig")
-      } else {
-        signingConfig = null
-      }
+      signingConfig = signingConfigs.getByName("debug")
     }
   }
   compileOptions {

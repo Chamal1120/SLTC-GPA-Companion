@@ -67,10 +67,9 @@ jobs:
       - name: 🧪 Run Unit & Robolectric Tests
         run: gradle :app:testDebugUnitTest
 
-      - name: 📦 Build Release & Debug APKs
+      - name: 📦 Build Release APKs
         run: |
           gradle :app:assembleRelease
-          gradle :app:assembleDebug
         env:
           KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
@@ -90,32 +89,19 @@ jobs:
           echo "Release Tag: $TAG_NAME"
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
           
-          # Dynamically search and copy any APKs found in release build output
+          # Copy only the specific release APKs for armeabi-v7a and arm64-v8a
           if [ -d "app/build/outputs/apk/release" ]; then
             find app/build/outputs/apk/release/ -name "*.apk" | while read -r apk_path; do
               filename=$(basename "$apk_path")
-              # Standardize names for the release
-              if [ "$filename" = "app-release.apk" ] || [ "$filename" = "app-release-unsigned.apk" ]; then
-                new_name="sltc-gpa-companion-$TAG_NAME-release.apk"
-              else
-                new_name="sltc-gpa-companion-$TAG_NAME-release-${filename#app-}"
+              if [[ "$filename" == *"arm64-v8a"* ]]; then
+                new_name="sltc-gpa-companion-$TAG_NAME-arm64-v8a.apk"
+                cp "$apk_path" "release-artifacts/$new_name"
+                echo "Copied ARM64-v8a APK: $new_name"
+              elif [[ "$filename" == *"armeabi-v7a"* ]]; then
+                new_name="sltc-gpa-companion-$TAG_NAME-armeabi-v7a.apk"
+                cp "$apk_path" "release-artifacts/$new_name"
+                echo "Copied ARMeabi-v7a APK: $new_name"
               fi
-              cp "$apk_path" "release-artifacts/$new_name"
-              echo "Copied release APK to release-artifacts/$new_name"
-            done
-          fi
-          
-          # Dynamically search and copy any APKs found in debug build output
-          if [ -d "app/build/outputs/apk/debug" ]; then
-            find app/build/outputs/apk/debug/ -name "*.apk" | while read -r apk_path; do
-              filename=$(basename "$apk_path")
-              if [ "$filename" = "app-debug.apk" ]; then
-                new_name="sltc-gpa-companion-$TAG_NAME-debug.apk"
-              else
-                new_name="sltc-gpa-companion-$TAG_NAME-debug-${filename#app-}"
-              fi
-              cp "$apk_path" "release-artifacts/$new_name"
-              echo "Copied debug APK to release-artifacts/$new_name"
             done
           fi
           
@@ -140,13 +126,17 @@ jobs:
           
           This companion application helps SLTC students track grades, calculate cumulative GPA, and monitor degree compliance effortlessly using an offline-first approach.
           
-          ## 📱 Release Artifacts
-          We provide the following APK packages for simple sideload installation:
+          ## 📱 Installation Guide
+          Please download the appropriate APK package below for your Android device:
           
-          - **`sltc-gpa-companion-${{ env.TAG_NAME }}-release.apk`**: Clean release build optimized for daily student usage.
-          - **`sltc-gpa-companion-${{ env.TAG_NAME }}-debug.apk`**: Standard debug/testing build.
+          1. **`sltc-gpa-companion-${{ env.TAG_NAME }}-arm64-v8a.apk`** *(Recommended)*
+             - **For modern devices**: Choose this if you have a modern smartphone or tablet (64-bit architecture).
+             - **If you are not sure**, download and install this one.
           
-          *(Note: Signed with debug or upload keys as configured in the environment).*
+          2. **`sltc-gpa-companion-${{ env.TAG_NAME }}-armeabi-v7a.apk`**
+             - **For older devices**: Choose this if you are using an older device or a 32-bit device.
+          
+          *(Note: APKs are signed with debug fallback/release configuration depending on the workflow secrets).*
           
           ---
           *To contribute, report issues, or view the degree configuration configurations, please visit our [GitHub Repository](https://github.com/${{ github.repository }}).*
